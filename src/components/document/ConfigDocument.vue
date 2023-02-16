@@ -4,15 +4,12 @@
         <v-text-field v-model="columnDefs[0].headerName" type="text" placeholder="name display"></v-text-field>
         <v-text-field v-model="columnDefs[1].headerName" type="text" placeholder="id"></v-text-field>
         <v-file-input id="file" v-model="file" @change="handleFile" />
-        <v-btn @click="render">
+        <v-btn @click="createDocument">
             submit
         </v-btn>
-        <!-- <div v-if="fetchColumnDefs.length>0"> -->
-            <ag-grid
-                :columnDefs="columndefsclone"
-                :rawData="rawDataClone"
-            />
-        <!-- </div> -->
+        <ag-grid-vue style="width: 100%; height: 900px;" class="ag-theme-alpine" :columnDefs="fetchColumnDefs"
+            :rowData="rawData">
+        </ag-grid-vue>
     </div>
 </template>
 
@@ -25,8 +22,8 @@ export default {
             this.$router.push('/')
         }
     },
-    components:{
-        'ag-grid': AgGridVue
+    components: {
+        AgGridVue
     }, 
     data() {
         return {
@@ -42,12 +39,36 @@ export default {
             ],
             rawData: [],
             file: undefined,
-            fetchColumnDefs: []
+            fetchColumnDefs: [],
         }
     },
     methods: {
-        render() {
-
+        createDocument() {
+            let userNameDisplayHeaderName = this.columnDefs[0].headerName
+            let idHeaderName = this.columnDefs[1].headerName
+            if (this.fetchColumnDefs.filter(col =>                 col.field == userNameDisplayHeaderName || col.field ==idHeaderName
+            ).length == 2) {
+                this.fetchColumnDefs.map((col, idx) => {
+                    if (col.field == userNameDisplayHeaderName) {
+                        this.fetchColumnDefs.splice(idx, 1)
+                    }
+                })
+                this.fetchColumnDefs.map((col, idx) => {
+                    if (col.field == idHeaderName) {
+                        this.fetchColumnDefs.splice(idx, 1)
+                    }
+                })
+                this.fetchColumnDefs = this.fetchColumnDefs.concat(this.columnDefs)
+                this.rawData.map(data => {
+                    let userNameValue = data[this.columnDefs[0].headerName]
+                    let idValue = data[this.columnDefs[1].headerName]
+                    delete data[this.columnDefs[0].headerName]
+                    delete data[this.columnDefs[1].headerName]
+                    data[this.columnDefs[0].field] = userNameValue
+                    data[this.columnDefs[1].field] = idValue
+                })
+            console.log(this.rawData)
+        }
         },
         async handleFile(e) {
             let file = await e.arrayBuffer()
@@ -76,20 +97,20 @@ export default {
         }
     },
     computed: {
-        columndefsclone() {
-            return [
-                { headerName: "Make", field: "make" },
-                { headerName: "Model", field: "model" },
-                { headerName: "Price", field: "price" },
-            ]
-        },
-        rawDataClone() {
-            return [
-                { make: "Toyota", model: "Celica", price: 35000 },
-                { make: "Ford", model: "Mondeo", price: 32000 },
-                { make: "Porsche", model: "Boxster", price: 72000 },
-            ]
-        }
+        // columndefsclone() {
+        //     return [
+        //         { headerName: "Make", field: "make" },
+        //         { headerName: "Model", field: "model" },
+        //         { headerName: "Price", field: "price" },
+        //     ]
+        // },
+        // rawDataClone() {
+        //     return [
+        //         { make: "Toyota", model: "Celica", price: 35000 },
+        //         { make: "Ford", model: "Mondeo", price: 32000 },
+        //         { make: "Porsche", model: "Boxster", price: 72000 },
+        //     ]
+        // }
         // fetchColumnDef() {
         //     // let columnDefs = []
         //     this.rawData.map(raw => {

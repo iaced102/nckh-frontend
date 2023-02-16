@@ -40,3 +40,7 @@ nav a.router-link-exact-active {
 }
 @import "~bootstrap/dist/css/bootstrap.css";
 </style>
+<style lang="scss">
+@import "~ag-grid-community/styles/ag-grid.css";
+@import "~ag-grid-community/styles/ag-theme-alpine.css";
+</style>
