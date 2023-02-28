@@ -13,7 +13,8 @@ var configs = {
     },
     maxOpenTab: 15,
     apiDomain: {
-        auth: 'auth/'
+        auth: 'auth/',
+        document: 'API/document/'
     },
     reformatUrl(obj) {
         for (let key in obj) {
