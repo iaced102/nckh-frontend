@@ -1,13 +1,15 @@
 <template>
-    <div>
-        <p>asdfsadf</p>
+    <div class="back">
+        <h1>Tạo văn bản mới</h1>
         <v-text-field v-model="columnDefs[0].headerName" type="text" placeholder="name display"></v-text-field>
         <v-text-field v-model="columnDefs[1].headerName" type="text" placeholder="id"></v-text-field>
         <v-file-input id="file" v-model="file" @change="handleFile" />
         <v-btn @click="createDocument">
             submit
         </v-btn>
-        <ag-grid-vue style="width: 100%; height: 900px;" class="ag-theme-alpine" :columnDefs="fetchColumnDefs"
+        <ag-grid-vue style="width: 90%; height: 900px; margin: 0 auto;" 
+            class="ag-theme-alpine" 
+            :columnDefs="fetchColumnDefs"
             :rowData="rawData">
         </ag-grid-vue>
     </div>
@@ -122,3 +124,26 @@ export default {
     }
 }
 </script>
+
+<style>
+.ag-theme-alpine {
+    --ag-foreground-color: rgb(52, 80, 171);
+    --ag-background-color: rgb(255, 255, 255);
+    --ag-header-foreground-color: rgb(204, 245, 172);
+    --ag-header-background-color: rgb(48, 169, 64);
+    --ag-odd-row-background-color: rgb(0, 0, 0, 0.03);
+    --ag-header-column-resize-handle-color: rgb(126, 46, 132);
+
+    --ag-font-family: monospace;
+    --ag-font-size: 15px;
+}
+
+.back {
+    background-color: rgb(200, 211, 214);
+}
+
+.v-text-field {
+    width: 80%;
+    margin: 0 auto;
+}
+</style>
