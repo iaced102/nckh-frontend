@@ -16,6 +16,7 @@
 <script>
 import { read, utils } from 'xlsx';
 import { AgGridVue } from "ag-grid-vue";
+import {documentAPI} from '@/api/document.js'
 export default {
     created() {
         if (!(this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff')) {
@@ -43,7 +44,7 @@ export default {
         }
     },
     methods: {
-        createDocument() {
+        async createDocument() {
             let userNameDisplayHeaderName = this.columnDefs[0].headerName
             let idHeaderName = this.columnDefs[1].headerName
             if (this.fetchColumnDefs.filter(col =>                 col.field == userNameDisplayHeaderName || col.field ==idHeaderName
@@ -67,7 +68,8 @@ export default {
                     data[this.columnDefs[0].field] = userNameValue
                     data[this.columnDefs[1].field] = idValue
                 })
-            console.log(this.rawData)
+            let res = await documentAPI.createDocument(this.fetchColumnDefs, this.rawData)
+            console.log(res)
         }
         },
         async handleFile(e) {
