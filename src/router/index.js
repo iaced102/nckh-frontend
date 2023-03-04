@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import Login from '../components/auth/Login.vue'
 import ShowListDocumentVue from '@/components/document/ShowListDocument.vue'
 import ConfigDocument from '@/components/document/ConfigDocument.vue'
+import EditDocument from '@/components/document/EditDocument.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/document/config',
     name: 'showListDocument',
     component: ConfigDocument
+  },
+  {
+    path: '/document/editDocument/:id',
+    name: 'editDocument',
+    component: EditDocument
   }
 ]
 
