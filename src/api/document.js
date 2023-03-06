@@ -38,5 +38,19 @@ export const documentAPI = {
             }
         }
         return feeAjax(options)
+    },
+    detailDocument(id) {
+        let feeUserInfo =JSON.parse(localStorage.getItem('feeUserInfo'))
+        let options = {
+            method: 'GET',
+            crossDomain: true,
+            data: {},
+            url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + 'detail/' + id,
+            headers: {
+                authorization: 'Bearer '+ feeUserInfo.access_token
+            }
+        }
+        return feeAjax(options)
+        
     }
 }
