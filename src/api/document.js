@@ -45,12 +45,11 @@ export const documentAPI = {
             method: 'GET',
             crossDomain: true,
             data: {},
-            url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + `detail/${id}`,
+            url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + 'detail/' + id,
             headers: {
                 authorization: 'Bearer '+ feeUserInfo.access_token
             }
         }
-        console.log(options.url)
         return feeAjax(options)
         
     }
