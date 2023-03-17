@@ -15,6 +15,7 @@ export const documentAPI = {
         let options = {
             method: 'POST',
             crossDomain: true,
+            'contentType': 'application/json',
             data: JSON.stringify(data),
             url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + 'create',
             headers: {
@@ -31,6 +32,7 @@ export const documentAPI = {
         let options = {
             method: 'GET',
             crossDomain: true,
+            'contentType': 'application/json',
             data: {},
             url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + 'getList',
             headers: {
@@ -44,13 +46,36 @@ export const documentAPI = {
         let options = {
             method: 'GET',
             crossDomain: true,
+            'contentType': 'application/json',
             data: {},
             url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + 'detail/' + id,
             headers: {
                 authorization: 'Bearer '+ feeUserInfo.access_token
             }
         }
+        return feeAjax(options)  
+    },
+    editDocument(columnDefs, rawData, id) {
+        let data = {
+            columnDefs: columnDefs,
+            rawData: rawData    
+        }
+        let feeUserInfo =JSON.parse(localStorage.getItem('feeUserInfo'))
+        console.log(feeUserInfo.access_token)
+        console.log(localStorage.getItem('feeUserInfo'))
+        let options = {
+            method: 'PUT',
+            crossDomain: true,
+            'contentType': 'application/json',
+            data: JSON.stringify(data),
+            url: appConfigs.getAPIUrl(appConfigs.apiDomain.document) + 'document/edit/' + id,
+            headers: {
+                authorization: 'Bearer '+ feeUserInfo.access_token
+            }
+        }
+        console.log(options)
         return feeAjax(options)
+        // return coreAPI.post('login', data)
         
-    }
+    },
 }
