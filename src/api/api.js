@@ -3,15 +3,7 @@
 import { feeAjax } from './feeAjax.js';
 import $ from 'jquery'
 
-// function makeCacheHeader(headers, url, data, options) {
-//     headers['Symper-Request-Name'] = options.requestName
-//         ? options.requestName
-//         : util.str.hashCode(JSON.stringify(['GET', url, data]));
-//     headers['Symper-Cache-Strategy'] = options.cacheStrategy
-//         ? 'cache-first'
-//         : 'network-first';
-//     return headers;
-// }
+
 
 export default class Api {
     /**

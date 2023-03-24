@@ -1,79 +1,71 @@
 <template>
-    <div>
-        
-        <table class="table table-striped">
-            <thead>
-                <th>#</th>
-                <th
-                  v-for="(keyName, index) in columnDefs"
-                  :key="index"
-                > {{ keyName }}
-                </th>
-                <th>Action</th>
-            </thead>
-            <tbody>
-                <tr v-for="(file, index) in files" :key="index">
-                <th scope="row">{{ index +1 }}</th> 
-                <td v-for="(keyName, index) in file" :key="index">
-                    {{ keyName }}
-                </td>
-                <td>
-                    <v-btn icon color="primary" @click="()=>{toEditDocument(file.id)}">
-                        <v-icon>mdi-cog</v-icon>
-                    </v-btn>
-                </td>
-                </tr>
-            </tbody>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <th>#</th>
+        <th v-for="(keyName, index) in columnDefs" :key="index">
+          {{ keyName }}
+        </th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        <tr v-for="(file, index) in files" :key="index">
+          <th scope="row">{{ index + 1 }}</th>
+          <td v-for="(keyName, index) in file" :key="index">
+            {{ keyName }}
+          </td>
+          <td>
+            <v-btn
+              icon
+              color="primary"
+              @click="
+                () => {
+                  toEditDocument(file.id);
+                }
+              ">
+              <v-icon>mdi-cog</v-icon>
+            </v-btn>
+          </td>
+        </tr>
+      </tbody>
     </table>
     <v-btn @click="toConfigDocument" class="config">Tạo mới</v-btn>
-    </div>
+  </div>
 </template>
 
 <script>
-import {documentAPI} from '@/api/document.js'
+import { documentAPI } from "@/api/document.js";
 export default {
-    data: () => ({
-      files: [
-      ],
-    }),
-    methods: {
-        toConfigDocument() {
-            /* if (this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff') {
-                this.$router.push('/document/config')
-            } else {
-                console.log('permission denied ')
-            } */    
-            this.$router.push('/document/config')
-        },
-        toEditDocument(id) {
-          /* if (this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff') {
-                this.$router.push('/document/edit')
-            } else {
-                console.log('permission denied ')
-            } */
-            // let file = this.files[]
-            console.log(id)
-            this.$router.push(`document/editDocument/${id}`)
-        }
+  data: () => ({
+    files: [],
+  }),
+  methods: {
+    toConfigDocument() {
+      this.$router.push("/document/config");
     },
-    computed:{
-        columnDefs(){
-            if(this.files.length){
-                let columnDefs = this.files[0]
-                return Object.keys(columnDefs)
-            }
-            return []
-        }
+    toEditDocument(id) {
+      this.$router.push({ name: "editDocument", params: { id: id } });
+      console.log(this.$route, `document/editDocument/${id}`);
     },
-    async created() {
-        let res = await documentAPI.getListDocument();
-        console.log(res);
-        for (let i=0; i< res.data.length; i++) {
-          this.files.push(res.data[i]);
-        }
-        console.log(this.files);
+  },
+  computed: {
+    columnDefs() {
+      if (this.files.length) {
+        let columnDefs = this.files[0];
+        return Object.keys(columnDefs);
+      }
+      return [];
+    },
+  },
+  async created() {
+    let res = await documentAPI.getListDocument();
+    console.log(res);
+    for (let i = 0; i < res.data.length; i++) {
+      this.files.push(res.data[i]);
     }
-}
+    console.log(this.files);
+  },
+};
 </script>
 
 <style>
@@ -89,9 +81,9 @@ table {
   position: relative;
 }
 thead {
-  background: #FFED86;
+  background: #ffed86;
 }
 .config {
-    margin: 20px auto;
+  margin: 20px auto;
 }
 </style>
