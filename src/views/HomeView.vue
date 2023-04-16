@@ -1,6 +1,6 @@
 <template>
   <div class="h-100 w-100" style="
-          display: flex;
+          display:flex;
           flex-direction: column;
           justify-content: space-between;
         ">
@@ -15,7 +15,9 @@
           </v-icon>
           <p class="title-home-tab">Văn bản hành chính</p>
         </div>
-        <div class="home-tab schedular-title">
+        <div class="home-tab schedular-title" @click="() => {
+          $router.push('/scheduler')
+        }">
           <v-icon class="icon-home-tab" aria-hidden="false">
             mdi-calendar
           </v-icon>

@@ -1,6 +1,5 @@
 <template>
-    <div>
-        
+    <div>        
         <table class="table table-striped">
             <thead>
                 <th>#</th>
@@ -18,14 +17,16 @@
                     {{ keyName }}
                 </td>
                 <td>
-                    <v-btn icon color="primary" @click="()=>{toEditDocument(file.id)}">
-                        <v-icon>mdi-cog</v-icon>
-                    </v-btn>
+                    <div>
+                        <v-btn icon color="primary" @click="()=>{toEditDocument(file.id)}">
+                            <v-icon>mdi-cog</v-icon>
+                        </v-btn>
+                    </div>
                 </td>
                 </tr>
             </tbody>
     </table>
-    <v-btn @click="toConfigDocument" class="config">Tạo mới</v-btn>
+    <v-btn @click="toConfigDocument" class="config" v-if="!callByScheduler">Tạo mới</v-btn>
     </div>
 </template>
 
@@ -53,7 +54,11 @@ export default {
             } */
             // let file = this.files[]
             console.log(id)
-            this.$router.push(`document/editDocument/${id}`)
+            if (this.callByScheduler == false) {
+                this.$router.push(`document/editDocument/${id}`)
+            } else {
+                this.$emit("toConfigScheduler",id)
+            }
         }
     },
     computed:{
@@ -72,6 +77,12 @@ export default {
           this.files.push(res.data[i]);
         }
         console.log(this.files);
+    },
+    props: {
+        callByScheduler: {
+            title: Boolean,
+            default: false
+        }
     }
 }
 </script>

@@ -1,8 +1,26 @@
 <template>
-    <div class="back">
+    <div class="back" data-app>
         <h1>Tạo văn bản mới</h1>
         <v-text-field v-model="columnDefs[0].headerName" type="text" placeholder="name display"></v-text-field>
         <v-text-field v-model="columnDefs[1].headerName" type="text" placeholder="id"></v-text-field>
+        <v-text-field v-model="classId" type="text" placeholder="classID"></v-text-field>
+        <v-toolbar color="rgb(200, 211, 214)">
+            <v-autocomplete
+            :items="subjectName"
+            item-text="name"
+            item-value="id"
+            label="Subject"
+            v-model="subjectId"
+            >
+            </v-autocomplete>
+            <v-spacer></v-spacer>
+            <v-btn 
+            @click="gotoAddSubject"
+            :disabled="!(this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff')"
+            >
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
+        </v-toolbar>
         <v-file-input id="file" v-model="file" @change="handleFile" />
         <v-btn @click="createDocument">
             submit
@@ -19,11 +37,21 @@
 import { read, utils } from 'xlsx';
 import { AgGridVue } from "ag-grid-vue";
 import {documentAPI} from '@/api/document.js'
+import {subjectAPI} from '@/api/subject.js'
+
 export default {
-    created() {
+    async created() {
         if (!(this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff')) {
             this.$router.push('/')
         }
+
+        let res = await subjectAPI.getListSubject();
+        // console.log(res.data[0]);
+        // res.data.map (item => {
+        //     console.log(res.data.name[item])
+        // })
+        this.subjectName = res.data;
+        console.log(this.subjectName);
     },
     components: {
         AgGridVue
@@ -43,12 +71,19 @@ export default {
             rawData: [],
             file: undefined,
             fetchColumnDefs: [],
+
+            subjectName: null,
+            classId: null,
+            subjectId: null,
+
         }
     },
     methods: {
         async createDocument() {
             let userNameDisplayHeaderName = this.columnDefs[0].headerName
             let idHeaderName = this.columnDefs[1].headerName
+            let classId = this.classId;
+            let subjectId = this.subjectId;
             if (this.fetchColumnDefs.filter(col =>                 col.field == userNameDisplayHeaderName || col.field ==idHeaderName
             ).length == 2) {
                 this.fetchColumnDefs.map((col, idx) => {
@@ -70,7 +105,7 @@ export default {
                     data[this.columnDefs[0].field] = userNameValue
                     data[this.columnDefs[1].field] = idValue
                 })
-            let res = await documentAPI.createDocument(this.fetchColumnDefs, this.rawData)
+            let res = await documentAPI.createDocument(this.fetchColumnDefs, this.rawData, classId, subjectId)
             console.log(res)
         }
         },
@@ -98,6 +133,9 @@ export default {
                 })
             })
             this.fetchColumnDefs = columnDefs
+        },
+        gotoAddSubject() {
+            this.$router.push("/document/config/addSubject");
         }
     },
     computed: {
@@ -145,6 +183,11 @@ export default {
 }
 
 .v-text-field {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.v-toolbar {
     width: 80%;
     margin: 0 auto;
 }
