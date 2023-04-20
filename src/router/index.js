@@ -5,6 +5,8 @@ import Login from '../components/auth/Login.vue'
 import ShowListDocumentVue from '@/components/document/ShowListDocument.vue'
 import ConfigDocument from '@/components/document/ConfigDocument.vue'
 import EditDocument from '@/components/document/EditDocument.vue'
+import DashboardWorkSpace from '@/components/dashboard/DashboardWorkspace.vue'
+import DocumentToDashboard from '@/components/dashboard/DocumentToDashboard.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +35,16 @@ const routes = [
     path: '/document/editDocument/:id',
     name: 'editDocument',
     component: EditDocument
+  },
+  {
+    path: '/dashboard/',
+    name: 'listDashboard',
+    component: DocumentToDashboard
+  },
+  {
+    path: '/dashboard/workspace/:id',
+    name: 'dashboardWorkspace',
+    component: DashboardWorkSpace
   }
 ]
 

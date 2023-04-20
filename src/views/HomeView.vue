@@ -1,15 +1,21 @@
 <template>
-  <div class="h-100 w-100" style="
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        ">
+  <div
+    class="h-100 w-100"
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    ">
     <HomeUserInfo />
     <div class="home">
       <div class="home-grid-layout">
-        <div class="home-tab document-title" @click="() => {
-          $router.push('/document')
-        }">
+        <div
+          class="home-tab document-title"
+          @click="
+            () => {
+              $router.push('/document');
+            }
+          ">
           <v-icon class="icon-home-tab" aria-hidden="false">
             mdi-format-list-bulleted-square
           </v-icon>
@@ -27,7 +33,13 @@
           </v-icon>
           <p class="title-home-tab">Tin tức</p>
         </div>
-        <div class="home-tab dashboard-title">
+        <div
+          class="home-tab dashboard-title"
+          @click="
+            () => {
+              $router.push('/dashboard');
+            }
+          ">
           <v-icon class="icon-home-tab" aria-hidden="false">
             mdi-view-dashboard-outline
           </v-icon>
