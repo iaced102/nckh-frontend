@@ -14,7 +14,9 @@ var configs = {
     maxOpenTab: 15,
     apiDomain: {
         auth: 'auth/',
-        document: 'API/document/'
+        document: 'API/document/',
+        subject: 'API/subject/',
+        scheduler: 'API/scheduler/'
     },
     reformatUrl(obj) {
         for (let key in obj) {

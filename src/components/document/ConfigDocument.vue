@@ -1,5 +1,5 @@
 <template>
-  <div class="back">
+  <div class="back" data-app>
     <h1>Tạo văn bản mới</h1>
     <v-text-field
       v-model="columnDefs[0].headerName"
@@ -9,6 +9,30 @@
       v-model="columnDefs[1].headerName"
       type="text"
       placeholder="id"></v-text-field>
+    <v-text-field
+      v-model="classId"
+      type="text"
+      placeholder="classID"></v-text-field>
+    <v-toolbar color="rgb(200, 211, 214)">
+      <v-autocomplete
+        :items="subjectName"
+        item-text="name"
+        item-value="id"
+        label="Subject"
+        v-model="subjectId">
+      </v-autocomplete>
+      <v-spacer></v-spacer>
+      <v-btn
+        @click="gotoAddSubject"
+        :disabled="
+          !(
+            this.$store.state.user.user.userInfo.orgChart == 'superUser' ||
+            this.$store.state.user.user.userInfo.orgChart == 'staff'
+          )
+        ">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </v-toolbar>
     <v-file-input id="file" v-model="file" @change="handleFile" />
     <v-btn @click="createDocument"> submit </v-btn>
     <ag-grid-vue
@@ -24,8 +48,10 @@
 import { read, utils } from "xlsx";
 import { AgGridVue } from "ag-grid-vue";
 import { documentAPI } from "@/api/document.js";
+import { subjectAPI } from "@/api/subject.js";
+
 export default {
-  created() {
+  async created() {
     if (
       !(
         this.$store.state.user.user.userInfo.orgChart == "superUser" ||
@@ -34,6 +60,14 @@ export default {
     ) {
       this.$router.push("/");
     }
+
+    let res = await subjectAPI.getListSubject();
+    // console.log(res.data[0]);
+    // res.data.map (item => {
+    //     console.log(res.data.name[item])
+    // })
+    this.subjectName = res.data;
+    console.log(this.subjectName);
   },
   components: {
     AgGridVue,
@@ -53,12 +87,18 @@ export default {
       rawData: [],
       file: undefined,
       fetchColumnDefs: [],
+
+      subjectName: null,
+      classId: null,
+      subjectId: null,
     };
   },
   methods: {
     async createDocument() {
       let userNameDisplayHeaderName = this.columnDefs[0].headerName;
       let idHeaderName = this.columnDefs[1].headerName;
+      let classId = this.classId;
+      let subjectId = this.subjectId;
       if (
         this.fetchColumnDefs.filter(
           (col) =>
@@ -75,7 +115,7 @@ export default {
             this.fetchColumnDefs.splice(idx, 1);
           }
         });
-        this.fetchColumnDefs = this.columnDefs.concat(this.fetchColumnDefs); //this.fetchColumnDefs.concat(this.columnDefs)
+        this.fetchColumnDefs = this.fetchColumnDefs.concat(this.columnDefs);
         this.rawData.map((data) => {
           let userNameValue = data[this.columnDefs[0].headerName];
           let idValue = data[this.columnDefs[1].headerName];
@@ -86,7 +126,9 @@ export default {
         });
         let res = await documentAPI.createDocument(
           this.fetchColumnDefs,
-          this.rawData
+          this.rawData,
+          classId,
+          subjectId
         );
         console.log(res);
       }
@@ -116,6 +158,9 @@ export default {
       });
       this.fetchColumnDefs = columnDefs;
     },
+    gotoAddSubject() {
+      this.$router.push("/document/config/addSubject");
+    },
   },
   computed: {
     // columndefsclone() {
@@ -144,24 +189,5 @@ export default {
 </script>
 
 <style>
-.ag-theme-alpine {
-  --ag-foreground-color: rgb(52, 80, 171);
-  --ag-background-color: rgb(255, 255, 255);
-  --ag-header-foreground-color: rgb(204, 245, 172);
-  --ag-header-background-color: rgb(48, 169, 64);
-  --ag-odd-row-background-color: rgb(0, 0, 0, 0.03);
-  --ag-header-column-resize-handle-color: rgb(126, 46, 132);
 
-  --ag-font-family: monospace;
-  --ag-font-size: 15px;
-}
-
-.back {
-  background-color: rgb(200, 211, 214);
-}
-
-.v-text-field {
-  width: 80%;
-  margin: 0 auto;
-}
 </style>

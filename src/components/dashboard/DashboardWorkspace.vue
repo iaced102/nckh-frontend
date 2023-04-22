@@ -67,7 +67,7 @@ export default {
   width: 100%;
   width: -moz-available; /* WebKit-based browsers will ignore this. */
   width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-  width: fill-available;
+  width: stretch;
 }
 .dashboard-workspace {
   display: flex;

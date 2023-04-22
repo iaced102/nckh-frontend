@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import Login from '../components/auth/Login.vue'
+import LoginVue from '../components/auth/Login.vue'
 import ShowListDocumentVue from '@/components/document/ShowListDocument.vue'
 import ConfigDocument from '@/components/document/ConfigDocument.vue'
 import EditDocument from '@/components/document/EditDocument.vue'
-import DashboardWorkSpace from '@/components/dashboard/DashboardWorkspace.vue'
+import AddSubject from '@/components/document/AddSubject.vue'
+import VueScheduler from '@/components/scheduler/VueScheduler.vue'
+import EditScheduler from '@/components/scheduler/EditScheduler.vue'
 import DocumentToDashboard from '@/components/dashboard/DocumentToDashboard.vue'
+import DashboardWorkspace from '@/components/dashboard/DashboardWorkspace.vue'
 
 Vue.use(VueRouter)
 
@@ -19,7 +22,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: LoginVue
   },
   {
     path: '/document',
@@ -28,7 +31,7 @@ const routes = [
   },
   {
     path: '/document/config',
-    name: 'showListDocument',
+    name: 'addDocument',
     component: ConfigDocument
   },
   {
@@ -44,8 +47,22 @@ const routes = [
   {
     path: '/dashboard/workspace/:id',
     name: 'dashboardWorkspace',
-    component: DashboardWorkSpace
-  }
+    component: DashboardWorkspace
+  }, {
+    path: '/document/config/addSubject',
+    name: 'addSubject',
+    component: AddSubject
+  },
+  {
+    path: '/scheduler',
+    name: 'MainScheduler',
+    component: VueScheduler
+  },
+  {
+    path: '/scheduler/editScheduler/:id',
+    name: 'EditScheduler',
+    component: EditScheduler
+  },
 ]
 
 const router = new VueRouter({

@@ -15,21 +15,25 @@
             {{ keyName }}
           </td>
           <td>
-            <v-btn
-              icon
-              color="primary"
-              @click="
-                () => {
-                  toEditDocument(file.id);
-                }
-              ">
-              <v-icon>mdi-cog</v-icon>
-            </v-btn>
+            <div>
+              <v-btn
+                icon
+                color="primary"
+                @click="
+                  () => {
+                    toEditDocument(file.id);
+                  }
+                ">
+                <v-icon>mdi-cog</v-icon>
+              </v-btn>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <v-btn @click="toConfigDocument" class="config">Tạo mới</v-btn>
+    <v-btn @click="toConfigDocument" class="config" v-if="!callByScheduler"
+      >Tạo mới</v-btn
+    >
   </div>
 </template>
 
@@ -39,15 +43,6 @@ export default {
   data: () => ({
     files: [],
   }),
-  methods: {
-    toConfigDocument() {
-      this.$router.push("/document/config");
-    },
-    toEditDocument(id) {
-      this.$router.push({ name: "editDocument", params: { id: id } });
-      console.log(this.$route, `document/editDocument/${id}`);
-    },
-  },
   computed: {
     columnDefs() {
       if (this.files.length) {
@@ -57,6 +52,34 @@ export default {
       return [];
     },
   },
+  methods: {
+    toConfigDocument() {
+      /* if (this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff') {
+                this.$router.push('/document/config')
+            } else {
+                console.log('permission denied ')
+            } */
+      this.$router.push("/document/config");
+    },
+    toEditDocument(id) {
+      /* if (this.$store.state.user.user.userInfo.orgChart == 'superUser' || this.$store.state.user.user.userInfo.orgChart == 'staff') {
+                this.$router.push('/document/edit')
+            } else {
+                console.log('permission denied ')
+            } */
+      // let file = this.files[]
+      console.log(id);
+      if (this.callByScheduler == false) {
+        this.$router.push(`document/editDocument/${id}`);
+      } else {
+        this.$emit("toConfigScheduler", id);
+      }
+    },
+  },
+  toEditDocument(id) {
+    this.$router.push({ name: "editDocument", params: { id: id } });
+    console.log(this.$route, `document/editDocument/${id}`);
+  },
   async created() {
     let res = await documentAPI.getListDocument();
     console.log(res);
@@ -64,6 +87,12 @@ export default {
       this.files.push(res.data[i]);
     }
     console.log(this.files);
+  },
+  props: {
+    callByScheduler: {
+      title: Boolean,
+      default: false,
+    },
   },
 };
 </script>

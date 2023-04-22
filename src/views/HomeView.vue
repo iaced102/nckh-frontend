@@ -21,7 +21,13 @@
           </v-icon>
           <p class="title-home-tab">Văn bản hành chính</p>
         </div>
-        <div class="home-tab schedular-title">
+        <div
+          class="home-tab schedular-title"
+          @click="
+            () => {
+              $router.push('/scheduler');
+            }
+          ">
           <v-icon class="icon-home-tab" aria-hidden="false">
             mdi-calendar
           </v-icon>
