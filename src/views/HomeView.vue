@@ -68,7 +68,7 @@ export default {
   methods: {},
 };
 </script>
-<style>
+<style scoped>
 .dashboard-title {
   background: #b6f8f1;
 }
