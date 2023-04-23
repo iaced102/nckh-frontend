@@ -18,6 +18,7 @@
               v-model="newColumn"
               :rules="inputRules"
             ></v-text-field>
+            <v-checkbox>abcd</v-checkbox>
             <v-spacer></v-spacer>
             <v-btn
               v-if="!options.noconfirm"
