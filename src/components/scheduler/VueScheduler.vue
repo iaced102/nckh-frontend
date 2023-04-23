@@ -4,6 +4,7 @@
       <v-col>
         <v-sheet height="400">
           <v-calendar
+            class="scheduler"
             ref="calendar"
             :now="today"
             :value="today"
@@ -261,3 +262,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.scheduler {
+  width:90%;
+  display: inline-block;
+}
+</style>

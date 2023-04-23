@@ -109,6 +109,8 @@ table {
   margin: 40px auto;
   position: relative;
 }
+
+tr:hover {background-color: #c4dede;}
 thead {
   background: #ffed86;
 }

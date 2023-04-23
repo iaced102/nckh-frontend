@@ -8,17 +8,22 @@
       :rowData="rawData"
       @grid-ready="onGridReady"
       :getContextMenuItems="getContextMenuItems"
-      :getMainMenuItems="getMainMenuItems">
+      :getMainMenuItems="getMainMenuItems"
+    >
     </ag-grid-vue>
-    <v-checkbox
-      v-model="isDivide"
-      :label="`Chia ca: ${isDivide.toString()}`"
-      @change="toggleDivide(isDivide)"></v-checkbox>
+    <v-container class="d-flex justify-center">
+      <v-checkbox
+        v-model="isDivide"
+        :label="`Chia ca: ${isDivide.toString()}`"
+        @change="toggleDivide(isDivide)"
+      ></v-checkbox>
+    </v-container>
     <v-btn @click="addScheduler"> Thêm lịch học </v-btn>
     <v-form
       class="schedulerForm"
       v-for="(item, index) in schedulerList"
-      :key="index">
+      :key="index"
+    >
       <v-container>
         <v-row>
           <v-col>
@@ -27,7 +32,8 @@
                 v-model="item.room"
                 :rules="nameRules"
                 label="Phòng học"
-                required></v-text-field>
+                required
+              ></v-text-field>
             </v-row>
 
             <v-row>
@@ -35,13 +41,15 @@
                 v-model="item.timeSlot"
                 :rules="nameRules"
                 label="Các tiết...."
-                required></v-text-field>
+                required
+              ></v-text-field>
             </v-row>
 
             <v-row>
               <v-text-field
                 v-model="item.userApply"
-                label="Áp dụng cho ca học..."></v-text-field>
+                label="Áp dụng cho ca học..."
+              ></v-text-field>
             </v-row>
           </v-col>
           <v-col>
@@ -62,19 +70,19 @@ import { documentAPI } from "@/api/document.js";
 import { schedulerAPI } from "@/api/scheduler";
 export default {
   components: {
-    AgGridVue,
+    AgGridVue
   },
   data() {
     return {
       columnDefs: [
         {
           headerName: "",
-          field: "userNameDisplay",
+          field: "userNameDisplay"
         },
         {
           headerName: "",
-          field: "id",
-        },
+          field: "id"
+        }
       ],
       rawData: [],
       showContextMenu: false,
@@ -86,20 +94,20 @@ export default {
           room: "",
           timeSlot: "",
           userApply: "",
-          picker: null,
-        },
+          picker: null
+        }
       ],
       nameRules: [(v) => !!v || "Text is required"],
       classId: "",
-      feeUserInfo:{}
+      feeUserInfo: {}
     };
   },
   async created() {
-    this.feeUserInfo =JSON.parse(localStorage.getItem('feeUserInfo'))
+    this.feeUserInfo = JSON.parse(localStorage.getItem("feeUserInfo"));
     this.gridOptions = {};
     // Nap data
     let res = await documentAPI.detailDocument(this.$route.params.id);
-    this.isDivide = res.columnDefs.some(a=>a.isDivide==true)
+    this.isDivide = res.columnDefs.some((a) => a.isDivide == true);
     console.log(res);
     this.columnDefs = res.columnDefs;
     this.rawData = res.rawData;
@@ -110,7 +118,7 @@ export default {
       // console.log(field.field != "student" && field.field != "id");
       if (field.field != "student" && field.field != "id") {
         Object.assign(this.columnDefs[this.columnDefs.indexOf(field)], {
-          editable: true,
+          editable: true
         });
       }
     });
@@ -145,7 +153,7 @@ export default {
         this.columnDefs.push({
           headerName: "Chia ca",
           field: "IsDivide",
-          editable: true,
+          editable: true
         });
         let size = this.rawData.length;
         let haftIndex = Math.round(size / 2);
@@ -174,7 +182,7 @@ export default {
         room: "",
         timeSlot: "",
         userapply: "",
-        picker: null,
+        picker: null
       });
     },
     async submit() {
@@ -187,7 +195,7 @@ export default {
           date: this.schedulerList[i].picker,
           time_slot: this.schedulerList[i].timeSlot.split(","),
           user_applied: [],
-          classId: this.classId,
+          classId: this.classId
         };
 
         console.log(this.columnDefs.some((a) => a.field == "IsDivide"));
@@ -214,9 +222,14 @@ export default {
         ) {
           return;
         }
-        this.columnDefs.push({ headerName: newScheduler.date, field: newScheduler.date, addByScheDuler: true, editable: true })
-        
-        newScheduler.user_applied.push(this.feeUserInfo.userInfo.userName)
+        this.columnDefs.push({
+          headerName: newScheduler.date,
+          field: newScheduler.date,
+          addByScheDuler: true,
+          editable: true
+        });
+
+        newScheduler.user_applied.push(this.feeUserInfo.userInfo.userName);
         let res = await schedulerAPI.createScheduler(
           newScheduler.classroom_id,
           newScheduler.date,
@@ -225,14 +238,17 @@ export default {
           newScheduler.classId
         );
         console.log(res);
-        
       }
       // debugger
-      let resd = await documentAPI.editDocument(this.columnDefs, this.rawData, this.$route.params.id);
+      let resd = await documentAPI.editDocument(
+        this.columnDefs,
+        this.rawData,
+        this.$route.params.id
+      );
       console.log(resd);
       this.$router.push("/document");
-      
-    },
-  },
+    }
+  }
 };
 </script>
+

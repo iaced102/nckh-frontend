@@ -4,22 +4,26 @@
     <v-text-field
       v-model="columnDefs[0].headerName"
       type="text"
-      placeholder="name display"></v-text-field>
+      placeholder="name display"
+    ></v-text-field>
     <v-text-field
       v-model="columnDefs[1].headerName"
       type="text"
-      placeholder="id"></v-text-field>
+      placeholder="id"
+    ></v-text-field>
     <v-text-field
       v-model="classId"
       type="text"
-      placeholder="classID"></v-text-field>
+      placeholder="classID"
+    ></v-text-field>
     <v-toolbar color="rgb(200, 211, 214)">
       <v-autocomplete
         :items="subjectName"
         item-text="name"
         item-value="id"
         label="Subject"
-        v-model="subjectId">
+        v-model="subjectId"
+      >
       </v-autocomplete>
       <v-spacer></v-spacer>
       <v-btn
@@ -29,18 +33,21 @@
             this.$store.state.user.user.userInfo.orgChart == 'superUser' ||
             this.$store.state.user.user.userInfo.orgChart == 'staff'
           )
-        ">
+        "
+      >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-toolbar>
     <v-file-input id="file" v-model="file" @change="handleFile" />
-    <v-btn @click="createDocument"> submit </v-btn>
+    
     <ag-grid-vue
       style="width: 90%; height: 900px; margin: 0 auto"
       class="ag-theme-alpine"
       :columnDefs="fetchColumnDefs"
-      :rowData="rawData">
+      :rowData="rawData"
+    >
     </ag-grid-vue>
+    <v-btn @click="createDocument"> submit </v-btn>
   </div>
 </template>
 
@@ -70,19 +77,19 @@ export default {
     console.log(this.subjectName);
   },
   components: {
-    AgGridVue,
+    AgGridVue
   },
   data() {
     return {
       columnDefs: [
         {
           headerName: "",
-          field: "userNameDisplay",
+          field: "userNameDisplay"
         },
         {
           headerName: "",
-          field: "id",
-        },
+          field: "id"
+        }
       ],
       rawData: [],
       file: undefined,
@@ -90,7 +97,7 @@ export default {
 
       subjectName: null,
       classId: null,
-      subjectId: null,
+      subjectId: null
     };
   },
   methods: {
@@ -153,14 +160,14 @@ export default {
       headerName.map((field) => {
         columnDefs.push({
           field: field,
-          headerName: field,
+          headerName: field
         });
       });
       this.fetchColumnDefs = columnDefs;
     },
     gotoAddSubject() {
       this.$router.push("/document/config/addSubject");
-    },
+    }
   },
   computed: {
     // columndefsclone() {
@@ -184,10 +191,13 @@ export default {
     //     })
     //     return []
     // }
-  },
+  }
 };
 </script>
 
 <style>
-
+.back {
+  width: 90%;
+  display: inline-block;
+}
 </style>
