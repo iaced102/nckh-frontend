@@ -5,11 +5,23 @@
             <p>Use your system account</p>
             <div class="input">
                 <label for="email"></label>
-                <input v-model="userName" class="form-control" type="text" name="email" placeholder="UserName" />
+                <input
+                    v-model="userName"
+                    class="form-control"
+                    type="text"
+                    name="email"
+                    placeholder="UserName"
+                />
             </div>
             <div class="input">
                 <label for="password"></label>
-                <input v-model="password" class="form-control" type="password" name="password" placeholder="Password" />
+                <input
+                    v-model="password"
+                    class="form-control"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                />
             </div>
             <div class="alternative-option mt-4">
                 <!-- You don't have an account? <span @click="moveToRegister">Register</span> -->
@@ -17,9 +29,18 @@
             <button type="submit" class="mt-4 btn-pers" id="login_button">
                 Login
             </button>
-            <div class="alert alert-warning alert-dismissible fade show mt-5 d-none" role="alert" id="alert_1">
+            <div
+                class="alert alert-warning alert-dismissible fade show mt-5 d-none"
+                role="alert"
+                id="alert_1"
+            >
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                ></button>
             </div>
         </form>
     </div>
@@ -36,7 +57,6 @@
     border: 1px solid #dadce0;
     -webkit-border-radius: 8px;
     border-radius: 8px;
-
 }
 .btn-pers {
     float: right;
@@ -47,12 +67,11 @@
     padding-bottom: 10px;
     padding-right: 20px;
     border-radius: 8px;
-    color:#fff;
-    font-weight: bold;
+    color: #fff;
+    font-weight: 600;
 }
 .btn-pers:hover {
-    font-weight: 900;
-    background-color: red;
+    background-color: #79c7e8;
 }
 .container .mb-4 {
     margin: 0px 0 -0.125rem;
@@ -60,7 +79,7 @@
     color: #fff;
     text-align: center;
     color: #202124;
-    font-family: 'Google Sans', 'Noto Sans Myanmar UI', arial, sans-serif;
+    font-family: "Google Sans", "Noto Sans Myanmar UI", arial, sans-serif;
     font-size: 24px;
     font-weight: 800;
 }
@@ -68,7 +87,7 @@
 .container p {
     font-size: 16px;
     font-weight: 400;
-    letter-spacing: .1px;
+    letter-spacing: 0.1px;
     line-height: 1.5;
     margin-bottom: 25px;
     text-align: center;
@@ -86,8 +105,6 @@
     border: 1px solid #ccc;
     background: transparent;
     border-radius: 4px;
-
-
 }
 
 .container .input label {
@@ -101,9 +118,9 @@
     transition: 0.5s;
 }
 
-.container .input input:focus~label,
-.container .input input:valid~label,
-.container .input input:not([value=""])~label {
+.container .input input:focus ~ label,
+.container .input input:valid ~ label,
+.container .input input:not([value=""]) ~ label {
     top: -1.125rem;
     left: 10px;
     color: #1a73e8;
@@ -133,12 +150,13 @@
 
 .container input[type="submit"]:hover {
     background-color: #287ae6;
-    box-shadow: 0 1px 1px 0 rgba(66, 133, 244, 0.45), 0 1px 3px 1px rgba(66, 133, 244, 0.3);
+    box-shadow: 0 1px 1px 0 rgba(66, 133, 244, 0.45),
+        0 1px 3px 1px rgba(66, 133, 244, 0.3);
 }
 
-.container .input input:focus~label,
-.container .input input:valid~label,
-.container .input input:not([value=""])~label {
+.container .input input:focus ~ label,
+.container .input input:valid ~ label,
+.container .input input:not([value=""]) ~ label {
     top: -1.125rem;
     left: 10px;
     color: #1a73e8;
@@ -156,10 +174,10 @@
 </style>
 <script>
 //   import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { userAPI } from '@/api/user'
+import { userAPI } from "@/api/user";
 
 export default {
-    name: 'login-vue',
+    name: "login-vue",
     data() {
         return {
             userName: "",
@@ -168,18 +186,18 @@ export default {
     },
     methods: {
         async login(submitEvent) {
-            console.log(submitEvent)
-            console.log(this.email, this.password)
-            let res = await userAPI.login(this.userName, this.password)
+            console.log(submitEvent);
+            console.log(this.email, this.password);
+            let res = await userAPI.login(this.userName, this.password);
             if (res.status == 200) {
-                this.$store.commit('user/setShowUser', res)
-                localStorage.feeUserInfo = JSON.stringify(res)
-                this.$router.push('/')
+                this.$store.commit("user/setShowUser", res);
+                localStorage.feeUserInfo = JSON.stringify(res);
+                this.$router.push("/");
             } else {
-                console.log('unAuthentication')
+                console.log("unAuthentication");
             }
 
-            console.log(res)
+            console.log(res);
         },
         moveToRegister() {
             this.$router.push("/register");
