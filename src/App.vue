@@ -1,12 +1,32 @@
 <template>
   <div id="app">
-    <ul class="snip1143">
-      <li class="current"><a href="/" data-hover="Home">Home</a></li>
-      <li><a href="/document" data-hover="VB Hành chính">VB Hành chính</a></li>
-      <li><a href="/scheduler" data-hover="Lịch trình">Lịch trình</a></li>
-      <li><a href="/dashboard" data-hover="Báo cáo">Báo cáo</a></li>
-      <li><a href="/news" data-hover="Tin tức">Tin tức</a></li>
-    </ul>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Home<span>&dtrif;</span></a>
+        </li>
+        <li>
+          <a href="/document">VB Hành chính<span>&dtrif;</span></a>
+          <ul class="submenu">
+            <li><a href="#">Tạo&nbsp;văn&nbsp;bản&nbsp;mới</a></li>
+            <li><a href="#">Danh&nbsp;sách&nbsp;văn&nbsp;bản</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/dashboard">Báo cáo<span>&dtrif;</span></a>
+        </li>
+        <li>
+          <a href="/scheduler">Lịch trình<span>&dtrif;</span></a>
+          <ul class="submenu">
+            <li><a href="#">Tạo&nbsp;lịch&nbsp;trình&nbsp;mới</a></li>
+            <li><a href="#">Lịch&nbsp;trình</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/news">Tin tức<span>&dtrif;</span></a>
+        </li>
+      </ul>
+    </nav>
     <router-view />
   </div>
 </template>
@@ -33,15 +53,11 @@ export default {
   width: 100vw;
 }
 
-nav {
-  padding: 30px;
-}
-
-nav a {
+/* nav a {
   font-weight: bold;
-  color: #ffffff;
+  color: #000000;
   text-decoration: none;
-}
+} */
 
 nav a.router-link-exact-active {
   color: #42b983;
@@ -53,81 +69,60 @@ nav a.router-link-exact-active {
 @import "~ag-grid-community/styles/ag-theme-alpine.css";
 </style>
 
-<style lang="scss">
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,500);
-.snip1143 {
-  font-family: "Raleway", Arial, sans-serif;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.snip1143 * {
-  box-sizing: border-box;
-  -webkit-transition: all 0.35s ease;
-  transition: all 0.35s ease;
-}
-.snip1143 li {
-  display: inline-block;
-  list-style: outside none none;
-  margin: 0 1.5em;
-  overflow: hidden;
-}
-.snip1143 a {
-  padding: 0.3em 0;
-  color: rgba(101, 102, 198, 0.5);
-  position: relative;
-  display: inline-block;
-  letter-spacing: 1px;
-  margin: 0;
-  text-decoration: none;
-}
-.snip1143 a:before,
-.snip1143 a:after {
-  position: absolute;
-  -webkit-transition: all 0.35s ease;
-  transition: all 0.35s ease;
-}
-.snip1143 a:before {
-  top: 100%;
-  display: block;
-  height: 3px;
-  width: 100%;
-  content: "";
-  background-color: #c0392b;
-}
-.snip1143 a:after {
-  padding: 0.3em 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  content: attr(data-hover);
-  color: rgb(0, 0, 0);
-  white-space: nowrap;
-}
-.snip1143 li:hover a,
-.snip1143 .current a {
-  transform: translateY(-100%);
-}
-/* Demo purposes only */
-body {
-  height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #212121;
+<style>
+/* main */
+nav {
+  padding: 30px;
+  font-weight: bold;
+  color: #000000;
 }
 
-/* Demo purposes only */
-html {
-  height: 100%;
+nav > ul, .submenu {
+  list-style-type: none;
 }
-body {
-  background-color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: wrap;
-  margin: 0;
-  height: 100%;
+
+nav > ul > li {
+  display: inline-block;
+  padding: 10px 0px;
+  position: relative;
 }
+
+nav > ul > li >a {
+  padding: 10px 18px;
+  color:#345e2e; text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent; border-radius: 3px;
+  transition: border 300ms linear;
+}
+
+nav > ul > li > a > span {
+  font-weight: bold; font-size: 25px;
+  position: relative; left: 8px;
+}
+
+nav > ul > li >a:hover {
+  border: 1px solid #000000; border-radius: 3px;
+}
+
+nav > ul > li:hover .submenu {
+  display: block;
+}
+
+/* submenu */
+ul.submenu {
+  position: absolute; top: 58px; left: 15px;
+  background-color: rgb(62, 147, 110);
+  padding:20px 0px 20px 0px;
+  display: none;
+}
+
+ul.submenu li {
+  padding: 10px 0px;
+}
+
+ul.submenu a {
+  padding: 10px 18px;
+  color: azure;
+}
+
 </style>
