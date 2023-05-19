@@ -8,10 +8,8 @@
 // @ is an alias to /src
 // import userAPI from "@/api/user";
 export default {
-    created() { },
+    created() {},
     methods: {},
 };
 </script>
-<style>
-
-</style>
+<style scoped></style>

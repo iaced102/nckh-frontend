@@ -4,14 +4,49 @@
             <v-col>
                 <v-sheet height="400">
                     <v-calendar
+                        class="show-calendar"
                         first-time="06:00"
                         ref="calendar"
                         :now="today"
                         :value="today"
                         :events="events"
                         color="primary"
+                        @click:event="showEvent"
                         type="week"
                     ></v-calendar>
+                    <v-menu
+                        v-model="selectedOpen"
+                        :close-on-content-click="false"
+                        :activator="selectedElement"
+                        offset-x
+                    >
+                        <v-card color="grey lighten-4" min-width="350px" flat>
+                            <v-toolbar :color="selectedEvent.color" dark>
+                                <v-toolbar-title
+                                    v-html="selectedEvent.name"
+                                ></v-toolbar-title>
+                                <v-spacer></v-spacer>
+                                <v-btn icon>
+                                    <v-icon>mdi-heart</v-icon>
+                                </v-btn>
+                                <v-btn icon>
+                                    <v-icon>mdi-dots-vertical</v-icon>
+                                </v-btn>
+                            </v-toolbar>
+                            <v-card-text>
+                                <span v-html="selectedEvent.note"></span>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn
+                                    text
+                                    color="secondary"
+                                    @click="selectedOpen = false"
+                                >
+                                    Cancel
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-menu>
                 </v-sheet>
             </v-col>
             <showListDocument
@@ -34,9 +69,10 @@ export default {
         today: dayjs().format("YYYY-MM-DD"),
         focus: "",
         type: "week",
-        selectedEvent: {},
         selectedOpen: false,
         events: [],
+        selectedEvent: {},
+        selectedElement: null,
     }),
     async created() {
         let monday = dayjs()
@@ -67,7 +103,12 @@ export default {
             });
             // console.log(sessionBySchedulerId);
             let mergeSession = {
-                name: sessionBySchedulerId[0].scheduler, // tạm để cái này, sau sẽ trả ra name
+                name: "Phòng học: " + sessionBySchedulerId[0].classroom.room_id, // tạm để cái này, sau sẽ trả ra name
+                subjectName: sessionBySchedulerId[0].document.subject.name,
+                documentId: sessionBySchedulerId[0].document.subject.classId,
+                note: sessionBySchedulerId[0].scheduler
+                    ? sessionBySchedulerId[0].scheduler.note
+                    : "",
                 startDate: sessionBySchedulerId[0].date,
                 endDate: sessionBySchedulerId[0].date,
             };
@@ -328,6 +369,9 @@ export default {
         console.log(result);
         for (var i = 0; i < result.length; i++) {
             this.events.push({
+                subjectName: result[i].subjectName,
+                documentId: result[i].documentId,
+                note: result[i].scheduler.note,
                 name: result[i].name,
                 start: result[i].startDate,
                 end: result[i].endDate,
@@ -338,9 +382,34 @@ export default {
         this.$refs.calendar.checkChange();
     },
     methods: {
+        showEvent({ nativeEvent, event }) {
+            const open = () => {
+                this.selectedEvent = event;
+                this.selectedElement = nativeEvent.target;
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => (this.selectedOpen = true))
+                );
+            };
+
+            if (this.selectedOpen) {
+                this.selectedOpen = false;
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => open())
+                );
+            } else {
+                open();
+            }
+
+            nativeEvent.stopPropagation();
+        },
         toConfigScheduler(id) {
             this.$router.push(`scheduler/editScheduler/${id}`);
         },
     },
 };
 </script>
+<style scoped>
+.show-calendar >>> .v-calendar-daily__day-interval {
+    height: 24px !important;
+}
+</style>

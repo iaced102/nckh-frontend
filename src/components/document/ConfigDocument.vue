@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="config-document-specific-field">
-                <div style="width: 40%">
+                <div style="width: 30%">
                     <p>Chọn môn học tương ứng:</p>
                     <div style="display: flex; align-items: center">
                         <v-autocomplete
@@ -56,13 +56,24 @@
                         </v-btn>
                     </div>
                 </div>
-                <div style="width: 40%">
+                <div style="width: 30%">
                     <p>Import danh sách dạng excel vào:</p>
                     <v-file-input
                         id="file"
                         v-model="file"
                         @change="handleFile"
                     />
+                </div>
+                <div style="width: 30%">
+                    <p>Quyền xem:</p>
+                    <v-autocomplete
+                        :items="sharePermission"
+                        item-text="text"
+                        item-value="value"
+                        label="Quyền xem"
+                        v-model="sharePermissionValue"
+                    >
+                    </v-autocomplete>
                 </div>
             </div>
             <div style="display: flex; justify-content: center; margin: 30px">
@@ -109,6 +120,20 @@ export default {
     },
     data() {
         return {
+            sharePermission: [
+                {
+                    text: "Chỉ mình tôi",
+                    value: "onlyMe",
+                },
+                {
+                    text: "Chia sẻ cho các giảng viên khác",
+                    value: "staff_only",
+                },
+                {
+                    text: "Tất cả mọi người(kể cả sinh viên)",
+                    value: "all",
+                },
+            ],
             columnDefs: [
                 {
                     headerName: "",
@@ -119,6 +144,7 @@ export default {
                     field: "id",
                 },
             ],
+            sharePermissionValue: "",
             rawData: [],
             file: undefined,
             fetchColumnDefs: [],
@@ -166,7 +192,8 @@ export default {
                     this.fetchColumnDefs,
                     this.rawData,
                     classId,
-                    subjectId
+                    subjectId,
+                    this.sharePermission
                 );
                 console.log(res);
             }

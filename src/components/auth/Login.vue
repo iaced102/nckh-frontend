@@ -45,7 +45,7 @@
         </form>
     </div>
 </template>
-<style>
+<style scoped>
 .container {
     position: absolute;
     top: 50%;

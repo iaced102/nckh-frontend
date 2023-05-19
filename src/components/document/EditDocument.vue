@@ -279,7 +279,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .v-text-field__details .v-messages {
     display: none;
 }
