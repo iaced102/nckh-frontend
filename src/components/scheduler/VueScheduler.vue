@@ -413,3 +413,10 @@ export default {
     height: 24px !important;
 }
 </style>
+
+<style>
+.scheduler {
+    width: 90%;
+    display: inline-block;
+}
+</style>
