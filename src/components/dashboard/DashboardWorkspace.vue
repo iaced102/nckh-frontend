@@ -18,7 +18,7 @@
                 </grid-item>
                 <grid-item :x="8" :y="0" :w="4" :h="2" i="2">
                     Giảng viên:
-                    {{ studentNumber }}
+                    {{ hostName }}
                 </grid-item>
             </grid-layout>
         </div>
@@ -41,11 +41,13 @@ export default {
             // studentNumber: 0,
             // classId: "",
             teacher: "",
+            allUsers: [],
             columnDefs: [],
             rawData: [],
         };
     },
     async created() {
+        this.allUsers = this.$store.state.user.users;
         let res = await documentAPI.detailDocument(this.$route.params.id);
         this.columnDefs = res.columnDefs;
         this.rawData = res.rawData;
@@ -55,6 +57,14 @@ export default {
         };
     },
     computed: {
+        hostName() {
+            if (this.originData.info) {
+                let hostId = this.originData.info.host;
+                let host = this.allUsers.find((u) => u.id == hostId);
+                return host.userNameDisplay;
+            }
+            return "";
+        },
         studentNumber() {
             if (this.originData.detail) {
                 return this.originData.detail.length;

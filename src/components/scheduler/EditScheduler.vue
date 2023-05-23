@@ -51,13 +51,28 @@
                         </v-row>
                     </v-col>
                     <v-col>
-                        <v-date-picker
-                            v-model="item.picker"
-                            color="blue"
-                        ></v-date-picker>
+                        <v-menu offset-y v-if="!item.is_superuser">
+                            <template v-slot:activator="{ on, attrs }">
+                                <!-- <v-icon v-bind="attrs" v-on="on">
+                                    mdi mdi-pencil
+                                </v-icon> -->
+                                <v-text-field
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    :value="item.picker"
+                                    label="Lịch học vào ngày"
+                                    readonly
+                                ></v-text-field>
+                            </template>
+                            <v-date-picker
+                                v-model="item.picker"
+                                color="blue"
+                            ></v-date-picker>
+                        </v-menu>
                     </v-col>
                 </v-row>
             </v-container>
+            <hr style="border-top: 2px solid; color: black; opacity: 1" />
         </v-form>
         <v-btn @click="submit">Submit</v-btn>
     </div>

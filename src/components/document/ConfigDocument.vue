@@ -196,6 +196,7 @@ export default {
                     this.sharePermissionValue
                 );
                 console.log(res);
+                return;
             }
         },
         async handleFile(e) {

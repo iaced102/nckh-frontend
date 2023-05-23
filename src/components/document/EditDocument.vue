@@ -29,6 +29,7 @@
                     style="margin-top: 0"
                     label="Đây là một trường để nhập điểm?"
                 />
+                <p>(*Việc chọn trường sẽ hỗ trợ việc làm báo cáo)</p>
             </template>
             <template v-slot:actions>
                 <div style="display: flex; justify-content: flex-end">
