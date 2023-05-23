@@ -85,30 +85,36 @@ export default {
         var lastday = sunday;
 
         let res = await schedulerAPI.getScheduler(firstday, lastday);
-        // console.log(res);
+        console.log(res);
         var a = res;
         let result = [];
         let schedulerId = a.map((i) => {
             return i.scheduler;
         });
-        function onlyUnique(value, index, array) {
-            return array.indexOf(value) === index;
-        }
-        schedulerId = schedulerId.filter(onlyUnique);
+        // function onlyUnique(value, index, array) {
+        //     return array.indexOf(value) === index;
+        // }
+        let schedulerClone = [];
+        schedulerId = schedulerId.filter((s) => {
+            if (!schedulerClone.includes(s.id)) {
+                schedulerClone.push(s.id);
+                return true;
+            }
+            return false;
+        });
         // console.log(schedulerId);
 
         for (let i of schedulerId) {
             let sessionBySchedulerId = a.filter((a) => {
-                return a.scheduler == i;
+                return a.scheduler.id == i.id;
             });
             // console.log(sessionBySchedulerId);
             let mergeSession = {
+                scheduler: sessionBySchedulerId[0].scheduler,
                 name: "Phòng học: " + sessionBySchedulerId[0].classroom.room_id, // tạm để cái này, sau sẽ trả ra name
                 subjectName: sessionBySchedulerId[0].document.subject.name,
                 documentId: sessionBySchedulerId[0].document.subject.classId,
-                note: sessionBySchedulerId[0].scheduler
-                    ? sessionBySchedulerId[0].scheduler.note
-                    : "",
+                note: sessionBySchedulerId[0].note,
                 startDate: sessionBySchedulerId[0].date,
                 endDate: sessionBySchedulerId[0].date,
             };
@@ -364,6 +370,7 @@ export default {
             mergeSession.startDate =
                 mergeSession.startDate + " " + startTime.value;
             mergeSession.endDate = mergeSession.endDate + " " + endTime.value;
+            // mergeSession.scheduler =
             result.push(mergeSession);
         }
         console.log(result);
@@ -371,7 +378,7 @@ export default {
             this.events.push({
                 subjectName: result[i].subjectName,
                 documentId: result[i].documentId,
-                note: result[i].scheduler.note,
+                note: result[i].note,
                 name: result[i].name,
                 start: result[i].startDate,
                 end: result[i].endDate,

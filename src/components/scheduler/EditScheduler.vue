@@ -51,24 +51,31 @@
                         </v-row>
                     </v-col>
                     <v-col>
-                        <v-menu offset-y v-if="!item.is_superuser">
-                            <template v-slot:activator="{ on, attrs }">
-                                <!-- <v-icon v-bind="attrs" v-on="on">
+                        <v-row>
+                            <v-menu offset-y v-if="!item.is_superuser">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <!-- <v-icon v-bind="attrs" v-on="on">
                                     mdi mdi-pencil
                                 </v-icon> -->
-                                <v-text-field
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    :value="item.picker"
-                                    label="Lịch học vào ngày"
-                                    readonly
-                                ></v-text-field>
-                            </template>
-                            <v-date-picker
-                                v-model="item.picker"
-                                color="blue"
-                            ></v-date-picker>
-                        </v-menu>
+                                    <v-text-field
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        :value="item.picker"
+                                        label="Lịch học vào ngày"
+                                        readonly
+                                    ></v-text-field>
+                                </template>
+                                <v-date-picker
+                                    v-model="item.picker"
+                                    color="blue"
+                                ></v-date-picker>
+                            </v-menu>
+                        </v-row>
+                        <v-text-field
+                            v-model="item.note"
+                            label="Ghi chú (ex: nhớ mang theo laptop cá nhân)"
+                        ></v-text-field>
+                        <v-row> </v-row>
                     </v-col>
                 </v-row>
             </v-container>
@@ -111,6 +118,7 @@ export default {
                     timeSlot: "",
                     userApply: "",
                     picker: null,
+                    note: "",
                 },
             ],
             nameRules: [(v) => !!v || "Text is required"],
@@ -213,6 +221,7 @@ export default {
                 let newScheduler = {
                     classroom_id: this.schedulerList[i].room,
                     date: this.schedulerList[i].picker,
+                    note: this.schedulerList[i].note,
                     time_slot: this.schedulerList[i].timeSlot.split(","),
                     user_applied: [],
                     classId: this.classId,
@@ -260,6 +269,7 @@ export default {
                     newScheduler.time_slot,
                     newScheduler.user_applied,
                     newScheduler.classId,
+                    newScheduler.note,
                     this.$route.params.id
                 );
                 console.log(res);

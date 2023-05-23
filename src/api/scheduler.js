@@ -23,7 +23,7 @@ export const schedulerAPI = {
         }
         return feeAjax(options)
     },
-    createScheduler(classroom_id, date, time_slot, user_applied, classId, docId) {
+    createScheduler(classroom_id, date, time_slot, user_applied, classId, note, docId) {
         let data = {
             classroom_id: classroom_id,
             date: date,
@@ -31,6 +31,7 @@ export const schedulerAPI = {
             user_applied: user_applied,
             classId: classId,
             documentId:docId,
+            note:note,
         }
         let feeUserInfo = JSON.parse(localStorage.getItem('feeUserInfo'))
         console.log(feeUserInfo.access_token)
