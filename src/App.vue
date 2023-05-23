@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <Menu></Menu>
+        <Menu v-if="includeMenu"></Menu>
         <router-view style="padding-top: 100px" />
     </div>
 </template>
@@ -9,6 +9,9 @@
 import Menu from "./components/common/Menu";
 export default {
     created() {
+        if (!window.passWaitingRoom && this.includeMenu) {
+            this.$router.push("/waiting-room");
+        }
         if (localStorage.feeUserInfo) {
             this.$store.commit("user/setStoredUserInfo");
         } else {
@@ -18,6 +21,18 @@ export default {
     components: {
         Menu,
     },
+    computed: {
+        includeMenu() {
+            if (
+                this.$route.name == "waitingRoom" ||
+                this.$route.name == "login" ||
+                this.$route.name == "repass"
+            ) {
+                return false;
+            }
+            return true;
+        },
+    },
 };
 </script>
 <style>
@@ -25,7 +40,6 @@ export default {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #2c3e50;
     height: 100vh;
     width: 100vw;

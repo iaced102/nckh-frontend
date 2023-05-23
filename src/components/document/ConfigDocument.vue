@@ -1,6 +1,6 @@
 <template>
     <div class="back" data-app>
-        <h1>Tạo văn bản mới</h1>
+        <h1 style="text-align: center">Tạo văn bản mới</h1>
         <div class="config-document-config">
             <div class="config-document-config-field">
                 <div class="input-field">
@@ -193,7 +193,7 @@ export default {
                     this.rawData,
                     classId,
                     subjectId,
-                    this.sharePermission
+                    this.sharePermissionValue
                 );
                 console.log(res);
             }

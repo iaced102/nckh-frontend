@@ -12,8 +12,7 @@
                 <v-btn
                     color="primary"
                     class="menu-item"
-                    v-bind="attrs"
-                    v-on="on"
+                    @click="() => toRedirect('/')"
                 >
                     Trang chính
                 </v-btn>
@@ -33,7 +32,9 @@
                         <v-list-item
                             class="menu-item-drop-down"
                             v-for="(item, index) in documentItem"
+                            @click="item.handler"
                             :key="index"
+                            style="cursor: pointer"
                         >
                             <v-list-item-title>{{
                                 item.title
@@ -45,8 +46,7 @@
                 <v-btn
                     class="menu-item"
                     color="primary"
-                    v-bind="attrs"
-                    v-on="on"
+                    @click="() => toRedirect('/scheduler')"
                 >
                     Lịch trình
                 </v-btn>
@@ -54,10 +54,17 @@
                 <v-btn
                     class="menu-item"
                     color="primary"
-                    v-bind="attrs"
-                    v-on="on"
+                    @click="() => toRedirect('/dashboard')"
                 >
                     Báo cáo
+                </v-btn>
+                <v-btn
+                    class="menu-item"
+                    color="primary"
+                    @click="() => toRedirect('/user-controller')"
+                    v-if="isSuperUser"
+                >
+                    Quản lý tài khoản
                 </v-btn>
             </div>
         </div>
@@ -66,12 +73,39 @@
 <script>
 export default {
     data() {
+        let self = this;
         return {
             documentItem: [
-                { title: "Danh sách văn bản hành chính", handler() {} },
-                { title: "Tạo mới", handler() {} },
+                {
+                    title: "Danh sách văn bản hành chính",
+                    handler() {
+                        self.toRedirect("/document");
+                    },
+                },
+                {
+                    title: "Tạo mới",
+                    handler() {
+                        self.toRedirect("/document/config");
+                    },
+                },
             ],
         };
+    },
+    computed: {
+        isSuperUser() {
+            console.log(this.$store.state.user);
+            if (this.$store.state.user.user.userInfo) {
+                return (
+                    this.$store.state.user.user.userInfo.orgChart == "superUser"
+                );
+            }
+            return false;
+        },
+    },
+    methods: {
+        toRedirect(name) {
+            this.$router.push(name);
+        },
     },
 };
 </script>
@@ -103,5 +137,8 @@ export default {
 }
 .menu-item-drop-down:hover {
     background: rgb(176, 173, 166);
+}
+.v-menu {
+    display: block;
 }
 </style>

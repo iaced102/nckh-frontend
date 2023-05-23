@@ -36,6 +36,7 @@ export default {
         columnDefs() {
             if (this.files.length) {
                 let columnDefs = Object.keys(this.files[0]).map((a) => {
+                    let valueFormatter = null;
                     let headerName;
                     if (a == "classId") {
                         headerName = "Mã lớp độc lập";
@@ -46,9 +47,13 @@ export default {
                     } else {
                         headerName = a;
                     }
+                    if (a == "sharePermission") {
+                        valueFormatter = this.sharePermissionValueFormatter;
+                    }
                     return {
                         field: a,
                         headerName: headerName,
+                        valueFormatter: valueFormatter,
                     };
                 });
                 return columnDefs;
@@ -57,6 +62,19 @@ export default {
         },
     },
     methods: {
+        sharePermissionValueFormatter(params) {
+            console.log(params);
+            switch (params.value) {
+                case "onlyMe":
+                    return "Chỉ mình tôi";
+                case "all":
+                    return "Tất cả";
+                case "staff_only":
+                    return "Chia sẻ cho giảng viên khác";
+                default:
+                    return "";
+            }
+        },
         toConfigDocument() {
             this.$router.push("/document/config");
         },
@@ -113,7 +131,9 @@ table {
     position: relative;
 }
 
-tr:hover {background-color: #c4dede;}
+tr:hover {
+    background-color: #c4dede;
+}
 thead {
     background: #ffed86;
 }
