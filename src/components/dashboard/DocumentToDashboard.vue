@@ -108,7 +108,7 @@ export default {
                     // custom item
                     name: "Chi tiết báo cáo",
                     action: () => {
-                        this.toDashboard(params.node.id);
+                        this.toDashboard(params.node.data.id);
                         console.log(params);
                     },
                 },

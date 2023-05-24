@@ -36,6 +36,16 @@
                             <v-card-text>
                                 <span v-html="selectedEvent.note"></span>
                             </v-card-text>
+                            <a
+                                v-if="
+                                    selectedEvent.scheduler
+                                        ? selectedEvent.scheduler.zoomURl != ''
+                                        : false
+                                "
+                                :href="selectedEvent.scheduler.zoomURl"
+                            >
+                                <v-btn>tham gia</v-btn>
+                            </a>
                             <v-card-actions>
                                 <v-btn
                                     text
@@ -382,6 +392,7 @@ export default {
                 name: result[i].name,
                 start: result[i].startDate,
                 end: result[i].endDate,
+                scheduler: result[i].scheduler,
             });
         }
     },

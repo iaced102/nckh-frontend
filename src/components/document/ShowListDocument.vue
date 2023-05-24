@@ -86,12 +86,14 @@ export default {
             }
         },
         getContextMenuItems(params) {
+            // debugger;
             var result = [
                 {
                     // custom item
                     name: "Chi tiết",
                     action: () => {
-                        this.toEditDocument(params.node.id);
+                        // debugger;
+                        this.toEditDocument(params.node.data.id);
                         console.log(params);
                     },
                 },
@@ -100,9 +102,9 @@ export default {
             return result;
         },
     },
-    toEditDocument(id) {
-        this.$router.push({ name: "editDocument", params: { id: id } });
-    },
+    // toEditDocument(id) {
+    //     this.$router.push({ name: "editDocument", params: { id: id } });
+    // },
     async created() {
         let res = await documentAPI.getListDocument();
         for (let i = 0; i < res.data.length; i++) {

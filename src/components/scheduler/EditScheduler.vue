@@ -75,7 +75,12 @@
                             v-model="item.note"
                             label="Ghi chú (ex: nhớ mang theo laptop cá nhân)"
                         ></v-text-field>
-                        <v-row> </v-row>
+                        <v-row>
+                            <v-checkbox
+                                v-model="item.isOnline"
+                                label="Học online(tự động tạo link zoom)?"
+                            ></v-checkbox>
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-container>
@@ -119,6 +124,7 @@ export default {
                     userApply: "",
                     picker: null,
                     note: "",
+                    isOnline: false,
                 },
             ],
             nameRules: [(v) => !!v || "Text is required"],
@@ -211,6 +217,8 @@ export default {
                 timeSlot: "",
                 userapply: "",
                 picker: null,
+                isOnline: false,
+                note: "",
             });
         },
         async submit() {
@@ -224,6 +232,7 @@ export default {
                     note: this.schedulerList[i].note,
                     time_slot: this.schedulerList[i].timeSlot.split(","),
                     user_applied: [],
+                    isOnline: this.schedulerList[i].isOnline,
                     classId: this.classId,
                 };
 
@@ -270,6 +279,7 @@ export default {
                     newScheduler.user_applied,
                     newScheduler.classId,
                     newScheduler.note,
+                    newScheduler.isOnline,
                     this.$route.params.id
                 );
                 console.log(res);
