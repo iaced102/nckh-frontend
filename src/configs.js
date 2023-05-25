@@ -1,5 +1,5 @@
 // import { util } from './plugins/util';
-const host = 'http://3.25.117.166:8000'
+const host = 'http://52.65.97.190:8000'
 var configs = {
     defaultAvatar: '/img/avatar_default.jpg',
     dataTypeIcon: {
