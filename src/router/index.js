@@ -10,6 +10,8 @@ import VueScheduler from '@/components/scheduler/VueScheduler.vue'
 import EditScheduler from '@/components/scheduler/EditScheduler.vue'
 import DocumentToDashboard from '@/components/dashboard/DocumentToDashboard.vue'
 import DashboardWorkspace from '@/components/dashboard/DashboardWorkspace.vue'
+import WaitingRoomVue from '@/components/WaitingRoom.vue'
+import UserController from '../components/auth/UserController.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +20,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/user-controller',
+    name: 'userController',
+    component: UserController
   },
   {
     path: '/login',
@@ -62,6 +69,11 @@ const routes = [
     path: '/scheduler/editScheduler/:id',
     name: 'EditScheduler',
     component: EditScheduler
+  },
+  {
+    path: '/waiting-room',
+    name: 'waitingRoom',
+    component: WaitingRoomVue
   },
 ]
 

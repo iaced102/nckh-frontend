@@ -4,12 +4,13 @@ import { feeAjax } from './feeAjax'
 
 // const coreAPI = new API(appConfigs.getAPIUrl(appConfigs.apiDomain.auth))
 export const documentAPI = {
-    createDocument(columnDefs, rawData, classId, subjectId) {
+    createDocument(columnDefs, rawData, classId, subjectId, sharePermission) {
         let data = {
             columnDefs: columnDefs,
             rawData: rawData,
             classId: classId,
             subjectId: subjectId,    
+            sharePermission:sharePermission,
         }
         let feeUserInfo =JSON.parse(localStorage.getItem('feeUserInfo'))
         console.log(feeUserInfo.access_token)

@@ -17,5 +17,8 @@ const setStoredUserInfo = (state) => {
 
 
 }
+const setAllUserInfo = (state, users) => {
+    state.users = users
+}
 
-export { setAvatarUrl, setShowUser, setStoredUserInfo };
+export { setAvatarUrl, setShowUser, setStoredUserInfo,setAllUserInfo };
